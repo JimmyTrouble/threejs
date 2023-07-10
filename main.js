@@ -1,15 +1,20 @@
-import './style.css';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import "./style.css";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 // Setup
 
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
 
 const renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector('#bg'),
+  canvas: document.querySelector("#bg"),
 });
 
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -19,11 +24,20 @@ camera.position.setX(-3);
 
 renderer.render(scene, camera);
 
+const moonTexture = new THREE.TextureLoader().load("moon.jpg");
+const torusTexture = new THREE.TextureLoader().load("00802.jpg");
+const normalTexture = new THREE.TextureLoader().load("normal.jpg");
+
 // Torus
 
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
-const material = new THREE.MeshStandardMaterial({ color: 0xff6347 });
+const geometry = new THREE.TorusKnotGeometry(10, 3, 16, 20);
+const material = new THREE.MeshStandardMaterial({
+  map: torusTexture,
+  normalMap: normalTexture,
+});
 const torus = new THREE.Mesh(geometry, material);
+
+torus.position.z = -30;
 
 scene.add(torus);
 
@@ -60,21 +74,25 @@ Array(200).fill().forEach(addStar);
 
 // Background
 
-const spaceTexture = new THREE.TextureLoader().load('space.jpg');
+const spaceTexture = new THREE.TextureLoader().load(
+  "2560x1600-570565-galaxy-widescreen.jpg"
+);
 scene.background = spaceTexture;
 
 // Avatar
 
-const jeffTexture = new THREE.TextureLoader().load('jeff.png');
+const jeffTexture = new THREE.TextureLoader().load(
+  "An oil pastel drawing of an annoyed cat in a spaceship.jpg"
+);
 
-const jeff = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({ map: jeffTexture }));
+const jeff = new THREE.Mesh(
+  new THREE.BoxGeometry(3, 3, 3),
+  new THREE.MeshBasicMaterial({ map: jeffTexture })
+);
 
 scene.add(jeff);
 
 // Moon
-
-const moonTexture = new THREE.TextureLoader().load('moon.jpg');
-const normalTexture = new THREE.TextureLoader().load('normal.jpg');
 
 const moon = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
