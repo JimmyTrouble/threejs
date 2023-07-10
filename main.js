@@ -75,7 +75,7 @@ Array(200).fill().forEach(addStar);
 // Background
 
 const spaceTexture = new THREE.TextureLoader().load(
-  "2560x1600-570565-galaxy-widescreen.jpg"
+  "public/2560x1600-570565-galaxy-widescreen.jpg"
 );
 scene.background = spaceTexture;
 
